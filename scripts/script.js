@@ -1,27 +1,21 @@
-"use strict"
+import { ctx, canvas } from "../modules/Canvas.js";
+import Player from '../modules/Player.js';
+import Enemy from '../modules/Enemy.js';
+import Particle from '../modules/Particle.js';
+import Projectile from '../modules/Projectile.js';
 
-const canvas = document.querySelector("[data-playing-field]");
-const ctx = canvas.getContext("2d");
 
-canvas.width = innerWidth - 20;
-canvas.height = innerHeight;
+// const GAME = {
 
-class Player {
-    constructor(x, y, radius, color) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
 
-    }
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
+//     createPlayer(){
 
-    }
-}
+//     },
+//     StartGame() {
+
+
+//     }
+// }
 
 
 const xPlayer = canvas.width / 2;
@@ -31,28 +25,7 @@ const player = new Player(xPlayer, yPlayer, 20, "white");
 player.draw();
 
 
-class Enemy {
-    constructor(x, y, radius, color, velocity) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.velocity = velocity;
-    }
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
 
-    }
-    update() {
-        this.draw();
-        this.x = this.x + this.velocity.x;
-        this.y = this.y + this.velocity.y;
-
-    }
-}
 
 const enemies = [];
 
@@ -90,75 +63,17 @@ function spamEnemies() {
         };
 
         enemies.push(new Enemy(x, y, radius, color, velocity));
+
+        console.log(enemies);
     }, 1500)
 
 }
 
 
-const friction = 0.99;
-class Particle {
-    constructor(x, y, radius, color, velocity) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.velocity = velocity;
-        this.alpha = 1;
-    }
-    draw() {
-        ctx.save();
-        ctx.globalAlpha = this.alpha;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.restore();
 
-    }
-    update() {
-        this.draw();
-
-        this.velocity.x *= friction;
-        this.velocity.y *= friction;
-
-        this.x = this.x + this.velocity.x;
-        this.y = this.y + this.velocity.y;
-
-        this.alpha -= 0.01;
-
-    }
-}
 
 const particles = [];
 
-
-
-class Projectile {
-    constructor(x, y, radius, color, velocity) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.velocity = velocity;
-
-    }
-
-    draw() {
-
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-
-    }
-
-    update() {
-        this.draw();
-        this.x = this.x + this.velocity.x;
-        this.y = this.y + this.velocity.y;
-
-    }
-}
 
 const projectiles = [];
 
@@ -266,4 +181,5 @@ window.addEventListener('click', event => {
 })
 
 animation();
+
 spamEnemies();
