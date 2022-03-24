@@ -22,6 +22,16 @@ class Enemy {
         this.y = this.y + this.velocity.y;
 
     }
+    checkingCollisions(element) {
+
+        const distance = Math.hypot(element.x - this.x, element.y - this.y);
+
+        if (distance - this.radius - element.radius < 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 export default Enemy;
