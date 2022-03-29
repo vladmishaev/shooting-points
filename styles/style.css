@@ -1,3 +1,72 @@
-body{
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
     margin: 0;
+    font-family: 'M PLUS 1', sans-serif;
+}
+
+.container {
+    position: relative;
+}
+
+[data-score] {
+    position: absolute;
+    color: #ffffff;
+}
+
+[data-score] {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+[data-game-result] {
+    background-color: #ffffff;
+    position: absolute;
+    color: rgb(44, 41, 41);
+    width: 30%;
+    padding: 60px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: none;
+
+
+}
+
+[data-game-result].active {
+    display: block;
+}
+
+
+[data-game-result]>h1 {
+    margin-bottom: 0;
+}
+
+
+[data-game-result]>p {
+    font-size: 18px;
+}
+
+[data-game-result] button {
+    background-color: #367ed8;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 18px;
+    width: 250px;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    border: 2px solid #367ed8;
+    transition: all 0.5s ease;
+}
+
+[data-game-result] button:hover {
+    background-color: #ffffff;
+    color: #367ed8;
+    transition: all 0.5s ease;
 }
