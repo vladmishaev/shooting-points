@@ -3,17 +3,22 @@ import Player from './Player.js';
 import Enemy from './Enemy.js';
 import Particle from './Particle.js';
 import Projectile from './Projectile.js';
+import BlockResult from './BlockResult.js';
+import ScoreElements from './ScoreElements.js';
 
 class Game {
 
     constructor(settings) {
 
+        this.score = 0;
         this.player = null;
         this.animationId = null;
+        this.spamEnemiesId = null;
         this.settings = settings;
         this.enemies = [];
         this.particles = [];
         this.projectiles = [];
+
     }
 
 
@@ -68,10 +73,12 @@ class Game {
 
         const { spawnTimeEnemies } = this.settings;
 
-        setInterval(() => {
+        this.spamEnemiesId = setInterval(() => {
             const enemy = this.createEnemy();
             this.enemies.push(enemy);
+            console.log(this.enemies);
         }, spawnTimeEnemies);
+
 
     }
 
@@ -104,7 +111,7 @@ class Game {
         const xPlayer = canvas.width / 2;
         const yPlayer = canvas.height / 2;
 
-        this.player = new Player(xPlayer, yPlayer, 20, "white");
+        this.player = new Player(xPlayer, yPlayer, 15, "white");
         this.player.draw();
 
         this.addEventListenerShot();
@@ -163,9 +170,16 @@ class Game {
         });
     }
 
+    updateScore(specs) {
+
+        this.score += specs;
+        ScoreElements.update(this.score);
+
+    }
+
     enemyClashProjectiles(enemy, enIndex) {
 
-        const { playerDamage,minHealthEnemy } = this.settings;
+        const { playerDamage, minHealthEnemy } = this.settings;
 
         this.projectiles.forEach((projectile, projIndex) => {
 
@@ -176,7 +190,7 @@ class Game {
 
                 this.clearParticle(enemy, projectile);
 
-                if (enemy.radius - minHealthEnemy > minHealthEnemy) {
+                if (enemy.radius - playerDamage > minHealthEnemy) {
 
                     gsap.to(enemy, {
                         radius: enemy.radius - playerDamage
@@ -185,6 +199,9 @@ class Game {
                     this.projectiles.splice(projIndex, 1);
 
                 } else {
+
+                    const score = Math.round(enemy.radius * 1.5);
+                    this.updateScore(score);
 
                     this.enemies.splice(enIndex, 1);
                     this.projectiles.splice(projIndex, 1);
@@ -225,8 +242,9 @@ class Game {
     }
 
     endGame() {
-
         cancelAnimationFrame(this.animationId);
+        clearInterval(this.spamEnemiesId);
+        BlockResult.showBlock();
     }
 
     StartGame() {
